@@ -126,10 +126,10 @@ export const ProfilePage = () => {
   };
 
   return (
-    <Flex justify='space-evenly' minW='100vw'>
-      <Box>
-        <VStack spacing='20px'>
-          <Text fontSize='3xl'>Set up your profile: </Text>
+    <Flex justify='space-evenly' minW='50vw'>
+      <Box w='50%'>
+        <VStack>
+          <Text fontSize='3xl'>Your profile: </Text>
           <FormControl>
             <FormLabel htmlFor='email'>Email address:</FormLabel>
             <Input
@@ -176,7 +176,8 @@ export const ProfilePage = () => {
           </FormControl>
         </VStack>
       </Box>
-      <Box>
+
+      <Box w='400px'>
         <VStack>
           <Button colorScheme='blue' onClick={addLanguage} mb='3' mt='3'>
             Add Language
