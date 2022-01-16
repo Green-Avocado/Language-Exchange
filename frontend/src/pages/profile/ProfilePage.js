@@ -21,6 +21,7 @@ import {
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth"
+import { readUserData, writeUserData } from "../../firebase.js"
 
 let avatarKey, setAvatarKey;
 let email, setEmail;
@@ -33,8 +34,11 @@ let languages, setLanguages;
 
 const auth = getAuth();
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
     if (user) {
+        console.log(user.uid);
+        let data = await readUserData(user.uid);
+
         setEmail(user.email);
         setName(user.displayName);
         setAvatarKey(user.photoURL);
