@@ -1,4 +1,5 @@
 import { useState, React } from 'react'
+import { Text } from '@chakra-ui/react'
 import { Button, Flex, IconButton, Link, Box } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 
@@ -37,6 +38,13 @@ const NavBar = () => {
                     Search
                 </Button>
             </Link>
+            <Text
+                as='a'
+                my={7}
+                w='100%'
+                ml={1}
+                >Username</Text>
+ 
             </Flex>
             <IconButton 
                 aria-label='Open Menu'
@@ -95,6 +103,13 @@ const NavBar = () => {
                     Search
                 </Button>
             </Link>
+            <Text
+                as='a'
+                my={7}
+                w='100%'
+                ml={1}
+                >Username</Text>
+            
             </Flex>
             </Flex>
         </Flex>
