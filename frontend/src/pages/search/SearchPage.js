@@ -23,10 +23,22 @@ import {
 import { onValue } from "firebase/database";
 import { usersRef } from "../../firebase";
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
+import { getAuth, onAuthStateChanged } from "firebase/auth"
+
+const auth = getAuth();
+let account;
+let users, setUsers;
+
+onAuthStateChanged(auth, async (user) => {
+    account = user
+    if (user) {
+        console.log(user.uid);
+    }
+});
 
 export const SearchPage = () => {
   const [range, setRange] = useState([18, 22]);
-  const [users, setUsers] = useState([]);
+  [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -39,7 +51,13 @@ export const SearchPage = () => {
 
   const nextUser = () => {
     let temp = [...users];
+
+      console.log(temp);
     temp.splice(0, 1);
+      if (account) {
+        temp = temp.filter((x) => x.name != account.displayName);
+      }
+      console.log(temp);
     setUsers(temp);
   };
 
