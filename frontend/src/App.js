@@ -18,7 +18,6 @@ function App() {
           <Route path='profile' element={<ProfilePage />} />
         </Routes>
       </VStack>
-      Hello
     </div>
   );
 }

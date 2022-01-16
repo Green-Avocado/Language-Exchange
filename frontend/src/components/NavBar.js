@@ -58,7 +58,7 @@ const NavBar = () => {
             </>
           )}
           <Text as='a' my={7} w='100%' ml={1}>
-            Username
+            {user?.displayName}
           </Text>
         </Flex>
         <IconButton
@@ -121,7 +121,7 @@ const NavBar = () => {
             </>
           )}
           <Text as='a' my={7} w='100%' ml={1}>
-            Username
+            {user?.displayName}
           </Text>
         </Flex>
       </Flex>
