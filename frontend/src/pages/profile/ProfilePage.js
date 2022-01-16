@@ -140,7 +140,7 @@ export const ProfilePage = () => {
     setLanguages(temp);
   };
 
-  const submitData = () => {
+  const submitData = async () => {
     const data = {
       'name': name,
       'age': age,
@@ -152,14 +152,15 @@ export const ProfilePage = () => {
     console.log(data);
 
     if (auth.currentUser) {
-        updateProfile(auth.currentUser, {
+        await updateProfile(auth.currentUser, {
             displayName: name,
             photoURL: avatarKey,
         });
 
-        updateUserData(auth.currentUser.uid, data);
+        await updateUserData(auth.currentUser.uid, data);
     }
 
+      window.location = "/search";
   };
 
   return (
