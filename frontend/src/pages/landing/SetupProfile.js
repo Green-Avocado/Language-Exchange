@@ -22,6 +22,7 @@ import { nanoid } from "nanoid";
 
 const LanguageInput = ({ l, removeLanguage, editLanguage, index }) => {
   const handleChange = (e, type) => {
+    console.log(e.target);
     editLanguage(type, e.target.value, index);
   };
 
@@ -38,14 +39,12 @@ const LanguageInput = ({ l, removeLanguage, editLanguage, index }) => {
           <option value='chinese'>Chinese</option>
           <option value='french'>French</option>
         </Select>
-        <FormLabel
-          htmlFor='experience'
+        <FormLabel htmlFor='experience'>Experience level:</FormLabel>
+        <Select
+          placeholder='Select'
           onChange={(e) => handleChange(e, "experience")}
-          value={l.language}
+          value={l.experience}
         >
-          Experience level:
-        </FormLabel>
-        <Select placeholder='Select'>
           <option value='Beginner'>Beginner</option>
           <option value='intermediate'>Intermediate</option>
           <option value='advanced'>Advanced</option>
@@ -75,19 +74,24 @@ const LanguageInput = ({ l, removeLanguage, editLanguage, index }) => {
 };
 
 export const SetupProfile = () => {
-  const [avatarKey, setAvatarKey] = useState("");
+  const [avatarKey, setAvatarKey] = useState("https://bit.ly/broken-link");
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [age, setAge] = useState(16);
+  const [gender, setGender] = useState("");
+  const [location, setLocation] = useState("");
   const [languages, setLanguages] = useState([]);
 
   const generateAvatarKey = () => {
-    setAvatarKey(nanoid());
+    setAvatarKey(`https://avatars.dicebear.com/api/jdenticon/${nanoid()}.svg`);
   };
 
   const addLanguage = () => {
     const obj = {
       language: "",
       experience: "",
-      wantToLearn: true,
-      wantToHelp: true,
+      wantToLearn: "true",
+      wantToHelp: "true",
     };
     const temp = [...languages, obj];
     setLanguages(temp);
@@ -104,6 +108,15 @@ export const SetupProfile = () => {
     setLanguages(temp);
   };
 
+  const submitData = () => {
+    console.log(email);
+    console.log(name);
+    console.log(age);
+    console.log(gender);
+    console.log(languages);
+    console.log(location);
+  };
+
   return (
     <Container>
       <Center>
@@ -111,14 +124,21 @@ export const SetupProfile = () => {
           <Text fontSize='3xl'>Set up your profile: </Text>
           <FormControl>
             <FormLabel htmlFor='email'>Email address:</FormLabel>
-            <Input type='email' />
+            <Input
+              type='email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
             <FormLabel htmlFor='name'>Name:</FormLabel>
-            <Input />
+            <Input value={name} onChange={(e) => setName(e.target.value)} />
 
             <FormLabel htmlFor='age'>Age:</FormLabel>
             <NumberInput defaultValue={16} min={10} max={100}>
-              <NumberInputField />
+              <NumberInputField
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
+              />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
@@ -126,14 +146,22 @@ export const SetupProfile = () => {
             </NumberInput>
 
             <FormLabel htmlFor='gender'>Gender:</FormLabel>
-            <Select placeholder='Select'>
+            <Select
+              placeholder='Select'
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+            >
               <option value='male'>Male</option>
               <option value='female'>Female</option>
               <option value='prefer-not-say'>Prefer not say</option>
             </Select>
 
             <FormLabel htmlFor='location'>Location:</FormLabel>
-            <Select placeholder='Select'>
+            <Select
+              placeholder='Select'
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+            >
               <option value='vancouver'>Vancouver</option>
               <option value='toronto'>Toronto</option>
             </Select>
@@ -155,15 +183,10 @@ export const SetupProfile = () => {
           <Button colorScheme='blue' onClick={generateAvatarKey}>
             Generate avatar
           </Button>
-          <Avatar
-            size='xl'
-            src={
-              avatarKey
-                ? `https://avatars.dicebear.com/api/jdenticon/${avatarKey}.svg`
-                : "https://bit.ly/broken-link"
-            }
-          />
-          <Button colorScheme='teal'>Get Started</Button>
+          <Avatar size='xl' src={avatarKey} />
+          <Button colorScheme='teal' onClick={submitData}>
+            Get Started
+          </Button>
         </VStack>
       </Center>
     </Container>
