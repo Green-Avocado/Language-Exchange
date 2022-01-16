@@ -21,7 +21,7 @@ import {
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth"
-import { readUserData, writeUserData } from "../../firebase.js"
+import { readUserData, updateUserData } from "../../firebase.js"
 
 let avatarKey, setAvatarKey;
 let email, setEmail;
@@ -157,7 +157,7 @@ export const ProfilePage = () => {
             photoURL: avatarKey,
         });
 
-        writeUserData(auth.currentUser.uid, data);
+        updateUserData(auth.currentUser.uid, data);
     }
 
   };
