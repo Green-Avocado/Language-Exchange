@@ -38,13 +38,23 @@ const NavBar = () => {
                     Search
                 </Button>
             </Link>
+            <Link href='/'>
+                <Button
+                    as='a'
+                    variant='ghost'
+                    aria-label='Landing'
+                    my={5}
+                    w='100%'
+                >
+                    Sign Out
+                </Button>
+            </Link>
             <Text
                 as='a'
                 my={7}
                 w='100%'
                 ml={1}
                 >Username</Text>
- 
             </Flex>
             <IconButton 
                 aria-label='Open Menu'
@@ -101,6 +111,17 @@ const NavBar = () => {
                     w='100%'
                 >
                     Search
+                </Button>
+            </Link>
+            <Link href='/'>
+                <Button
+                    as='a'
+                    variant='ghost'
+                    aria-label='Landing'
+                    my={5}
+                    w='100%'
+                >
+                    Sign Out
                 </Button>
             </Link>
             <Text
