@@ -11,7 +11,7 @@ function App() {
   return (
     <div className='App'>
       <VStack>
-        <NavBar />
+        <NavBar/>
         <Routes>
           <Route path='/' element={<LandingPage />} />
           <Route path='search' element={<SearchPage />} />
