@@ -47,12 +47,13 @@ const login = async () => {
 
 const readUserData = async (userId) => {
     const db = getDatabase();
-    get(ref(db, 'Users/' + userId)).then((snapshot) => {
-        if (snapshot.exists()) {
-            console.log(snapshot.val());
-            return snapshot.val();
-        }
-    });
+    let snapshot = await get(ref(db, 'Users/' + userId));
+
+    if (snapshot.exists()) {
+        let data = await snapshot.val();
+        console.log(data);
+        return data;
+    }
 };
 
 const writeUserData = async (userId, data) => {

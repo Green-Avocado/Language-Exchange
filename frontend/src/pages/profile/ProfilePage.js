@@ -39,6 +39,11 @@ onAuthStateChanged(auth, async (user) => {
         console.log(user.uid);
         let data = await readUserData(user.uid);
 
+        setGender(data.gender);
+        setAge(data.age);
+        setLocation(data.location);
+        setLanguages(data.languages);
+
         setEmail(user.email);
         setName(user.displayName);
         setAvatarKey(user.photoURL);
