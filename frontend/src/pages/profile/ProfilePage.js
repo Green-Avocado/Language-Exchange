@@ -20,6 +20,25 @@ import {
   Checkbox,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
+import { getAuth, onAuthStateChanged } from "firebase/auth"
+
+let initialEmail;
+let initialName;
+let initialAvatar = "https://bit.ly/broken-link";
+let initialAge = 0;
+let initialGender;
+let initialLocation;
+
+const auth = getAuth();
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        initialEmail = user.email;
+        initialName = user.displayName;
+        document.getElementById('email-input').value = user.email;
+        document.getElementById('name-input').value = user.displayName;
+    } else {
+    }
+});
 
 const LanguageInput = ({ l, removeLanguage, editLanguage, index }) => {
   const handleChange = (e, type) => {
@@ -76,12 +95,12 @@ const LanguageInput = ({ l, removeLanguage, editLanguage, index }) => {
 };
 
 export const ProfilePage = () => {
-  const [avatarKey, setAvatarKey] = useState("https://bit.ly/broken-link");
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [age, setAge] = useState(16);
-  const [gender, setGender] = useState("");
-  const [location, setLocation] = useState("");
+  const [avatarKey, setAvatarKey] = useState(initialAvatar);
+  const [email, setEmail] = useState(initialEmail);
+  const [name, setName] = useState(initialName);
+  const [age, setAge] = useState(initialAge);
+  const [gender, setGender] = useState(initialGender);
+  const [location, setLocation] = useState(initialLocation);
   const [languages, setLanguages] = useState([]);
 
   const generateAvatarKey = () => {
@@ -133,13 +152,14 @@ export const ProfilePage = () => {
           <FormControl>
             <FormLabel htmlFor='email'>Email address:</FormLabel>
             <Input
+              id='email-input'
               type='email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
 
             <FormLabel htmlFor='name'>Name:</FormLabel>
-            <Input value={name} onChange={(e) => setName(e.target.value)} />
+            <Input id='name-input' value={name} onChange={(e) => setName(e.target.value)} />
 
             <FormLabel htmlFor='age'>Age:</FormLabel>
             <NumberInput defaultValue={16} min={10} max={100}>
