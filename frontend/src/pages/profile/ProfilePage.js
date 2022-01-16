@@ -195,9 +195,9 @@ export const ProfilePage = () => {
               value={gender}
               onChange={(e) => setGender(e.target.value)}
             >
-              <option value='male'>Male</option>
-              <option value='female'>Female</option>
-              <option value='prefer-not-say'>Prefer not say</option>
+              <option value='Male'>Male</option>
+              <option value='Female'>Female</option>
+              <option value='Prefer not to say'>Prefer not to say</option>
             </Select>
 
             <FormLabel htmlFor='location'>Location:</FormLabel>
@@ -206,8 +206,8 @@ export const ProfilePage = () => {
               value={location}
               onChange={(e) => setLocation(e.target.value)}
             >
-              <option value='vancouver'>Vancouver</option>
-              <option value='toronto'>Toronto</option>
+              <option value='Vancouver'>Vancouver</option>
+              <option value='Toronto'>Toronto</option>
             </Select>
           </FormControl>
         </VStack>
