@@ -11,12 +11,12 @@ function App() {
   return (
     <div className='App'>
       <VStack>
-      <NavBar />
-      <Routes>
-        <Route path='/' element={<LandingPage />} />
-        <Route path='search' element={<SearchPage />} />
-        <Route path='profile' element={<ProfilePage />} />
-      </Routes>
+        <NavBar />
+        <Routes>
+          <Route path='/' element={<LandingPage />} />
+          <Route path='search' element={<SearchPage />} />
+          <Route path='profile' element={<ProfilePage />} />
+        </Routes>
       </VStack>
     </div>
   );

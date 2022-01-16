@@ -1,13 +1,22 @@
-import { useEffect } from "react";
-import { Box, Flex, Center, Button } from "@chakra-ui/react";
+import { Box, Flex, Center, Button, Spinner } from "@chakra-ui/react";
 import { login } from "../../firebase.js";
+import { useNavigate } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 
+const auth = getAuth();
+
 export const LandingPage = () => {
-  const auth = getAuth();
-  useEffect(() => {
-    console.log(auth);
-  }, [auth]);
+  const navigate = useNavigate();
+  const [user, loading, error] = useAuthState(auth);
+
+  if (user) {
+    navigate("/profile");
+  }
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <Flex justify='space-between'>
