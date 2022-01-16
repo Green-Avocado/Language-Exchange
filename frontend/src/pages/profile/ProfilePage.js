@@ -20,23 +20,24 @@ import {
   Checkbox,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
-import { getAuth, onAuthStateChanged } from "firebase/auth"
+import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth"
 
-let initialEmail;
-let initialName;
-let initialAvatar = "https://bit.ly/broken-link";
-let initialAge = 0;
-let initialGender;
-let initialLocation;
+let avatarKey, setAvatarKey;
+let email, setEmail;
+let name, setName;
+let age, setAge;
+let gender, setGender;
+let location, setLocation;
+let languages, setLanguages;
+
 
 const auth = getAuth();
+
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        initialEmail = user.email;
-        initialName = user.displayName;
-        document.getElementById('email-input').value = user.email;
-        document.getElementById('name-input').value = user.displayName;
-    } else {
+        setEmail(user.email);
+        setName(user.displayName);
+        setAvatarKey(user.photoURL);
     }
 });
 
@@ -95,13 +96,13 @@ const LanguageInput = ({ l, removeLanguage, editLanguage, index }) => {
 };
 
 export const ProfilePage = () => {
-  const [avatarKey, setAvatarKey] = useState(initialAvatar);
-  const [email, setEmail] = useState(initialEmail);
-  const [name, setName] = useState(initialName);
-  const [age, setAge] = useState(initialAge);
-  const [gender, setGender] = useState(initialGender);
-  const [location, setLocation] = useState(initialLocation);
-  const [languages, setLanguages] = useState([]);
+    [avatarKey, setAvatarKey] = useState();
+    [email, setEmail] = useState();
+    [name, setName] = useState();
+    [age, setAge] = useState();
+    [gender, setGender] = useState();
+    [location, setLocation] = useState();
+    [languages, setLanguages] = useState([]);
 
   const generateAvatarKey = () => {
     setAvatarKey(`https://avatars.dicebear.com/api/jdenticon/${nanoid()}.svg`);
@@ -132,7 +133,6 @@ export const ProfilePage = () => {
 
   const submitData = () => {
     const data = {
-      email,
       name,
       age,
       gender,
@@ -141,7 +141,13 @@ export const ProfilePage = () => {
       location,
     };
     console.log(data);
-    // do fetch call
+
+    if (auth.currentUser) {
+        updateProfile(auth.currentUser, {
+            displayName: name,
+            photoURL: avatarKey,
+        })
+    }
   };
 
   return (
@@ -153,6 +159,7 @@ export const ProfilePage = () => {
             <FormLabel htmlFor='email'>Email address:</FormLabel>
             <Input
               id='email-input'
+              disabled='true'
               type='email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -214,7 +221,7 @@ export const ProfilePage = () => {
           <Button colorScheme='blue' onClick={generateAvatarKey}>
             Generate avatar
           </Button>
-          <Avatar size='xl' src={avatarKey} />
+          <Avatar id='avatar' size='xl' src={avatarKey} />
           <Button colorScheme='teal' onClick={submitData}>
             Get Started
           </Button>
