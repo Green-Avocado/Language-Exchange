@@ -22,8 +22,11 @@ import { nanoid } from "nanoid";
 
 const LanguageInput = ({ l, removeLanguage, editLanguage, index }) => {
   const handleChange = (e, type) => {
-    console.log(e.target);
-    editLanguage(type, e.target.value, index);
+    if (type.includes("wantTo")) {
+      editLanguage(type, e.target.checked, index);
+    } else {
+      editLanguage(type, e.target.value, index);
+    }
   };
 
   return (
@@ -65,9 +68,7 @@ const LanguageInput = ({ l, removeLanguage, editLanguage, index }) => {
           Want to help
         </Checkbox>
 
-        <Button colorScheme='blue' onClick={() => removeLanguage(index)}>
-          Remove
-        </Button>
+        <Button onClick={() => removeLanguage(index)}>Remove</Button>
       </VStack>
     </Box>
   );
@@ -90,8 +91,8 @@ export const SetupProfile = () => {
     const obj = {
       language: "",
       experience: "",
-      wantToLearn: "true",
-      wantToHelp: "true",
+      wantToLearn: true,
+      wantToHelp: true,
     };
     const temp = [...languages, obj];
     setLanguages(temp);
@@ -104,23 +105,29 @@ export const SetupProfile = () => {
   };
 
   const removeLanguage = (index) => {
-    const temp = languages.splice(index, 1);
+    let temp = [...languages];
+    temp.splice(index, 1);
     setLanguages(temp);
   };
 
   const submitData = () => {
-    console.log(email);
-    console.log(name);
-    console.log(age);
-    console.log(gender);
-    console.log(languages);
-    console.log(location);
+    const data = {
+      email,
+      name,
+      age,
+      gender,
+      avatarKey,
+      languages,
+      location,
+    };
+    console.log(data);
+    // do fetch call
   };
 
   return (
     <Container>
       <Center>
-        <VStack w='100%' spacing='10px'>
+        <VStack w='100%' spacing='20px'>
           <Text fontSize='3xl'>Set up your profile: </Text>
           <FormControl>
             <FormLabel htmlFor='email'>Email address:</FormLabel>
@@ -166,12 +173,12 @@ export const SetupProfile = () => {
               <option value='toronto'>Toronto</option>
             </Select>
 
-            <Button colorScheme='blue' onClick={addLanguage}>
+            <Button colorScheme='blue' onClick={addLanguage} mb='3' mt='3'>
               Add Language
             </Button>
             {languages.map((l, index) => (
               <LanguageInput
-                key={l}
+                key={index}
                 l={l}
                 editLanguage={editLanguage}
                 removeLanguage={removeLanguage}
