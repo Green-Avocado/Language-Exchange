@@ -2,7 +2,22 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { getDatabase, ref } from "firebase/database";
+import { getDatabase, ref, set, get } from "firebase/database";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBrm8MJo8UHxYaso8tXSWDJ4Dhy3ohVQmg",
+  authDomain: "nwhacks-f42df.firebaseapp.com",
+  projectId: "nwhacks-f42df",
+  databaseURL: "https://nwhacks-f42df-default-rtdb.firebaseio.com",
+  storageBucket: "nwhacks-f42df.appspot.com",
+  messagingSenderId: "717144736521",
+  appId: "1:717144736521:web:c523e58d3cda7c84d949d8",
+  measurementId: "G-N67G6JCZ9T",
+}
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 const provider = new GoogleAuthProvider();
 const login = async () => {
@@ -30,27 +45,22 @@ const login = async () => {
     });
 };
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBrm8MJo8UHxYaso8tXSWDJ4Dhy3ohVQmg",
-  authDomain: "nwhacks-f42df.firebaseapp.com",
-  projectId: "nwhacks-f42df",
-  databaseURL: "https://nwhacks-f42df-default-rtdb.firebaseio.com",
-  storageBucket: "nwhacks-f42df.appspot.com",
-  messagingSenderId: "717144736521",
-  appId: "1:717144736521:web:c523e58d3cda7c84d949d8",
-  measurementId: "G-N67G6JCZ9T",
+const readUserData = async (userId) => {
+    const db = getDatabase();
+    get(ref(db, 'Users/' + userId)).then((snapshot) => {
+        if (snapshot.exists()) {
+            console.log(snapshot.val());
+            return snapshot.val();
+        }
+    });
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const writeUserData = async (userId, data) => {
+    const db = getDatabase();
+    set(ref(db, 'Users/' + userId), data);
+};
 
 const db = getDatabase();
 const usersRef = ref(db, "Users");
 
-export { login, usersRef };
+export { login, usersRef, readUserData, writeUserData };

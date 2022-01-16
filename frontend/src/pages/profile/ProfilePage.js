@@ -20,6 +20,26 @@ import {
   Checkbox,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
+import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth"
+
+let avatarKey, setAvatarKey;
+let email, setEmail;
+let name, setName;
+let age, setAge;
+let gender, setGender;
+let location, setLocation;
+let languages, setLanguages;
+
+
+const auth = getAuth();
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        setEmail(user.email);
+        setName(user.displayName);
+        setAvatarKey(user.photoURL);
+    }
+});
 
 const LanguageInput = ({ l, removeLanguage, editLanguage, index }) => {
   const handleChange = (e, type) => {
@@ -76,13 +96,13 @@ const LanguageInput = ({ l, removeLanguage, editLanguage, index }) => {
 };
 
 export const ProfilePage = () => {
-  const [avatarKey, setAvatarKey] = useState("https://bit.ly/broken-link");
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [age, setAge] = useState(16);
-  const [gender, setGender] = useState("");
-  const [location, setLocation] = useState("");
-  const [languages, setLanguages] = useState([]);
+    [avatarKey, setAvatarKey] = useState();
+    [email, setEmail] = useState();
+    [name, setName] = useState();
+    [age, setAge] = useState();
+    [gender, setGender] = useState();
+    [location, setLocation] = useState();
+    [languages, setLanguages] = useState([]);
 
   const generateAvatarKey = () => {
     setAvatarKey(`https://avatars.dicebear.com/api/jdenticon/${nanoid()}.svg`);
@@ -113,7 +133,6 @@ export const ProfilePage = () => {
 
   const submitData = () => {
     const data = {
-      email,
       name,
       age,
       gender,
@@ -122,7 +141,13 @@ export const ProfilePage = () => {
       location,
     };
     console.log(data);
-    // do fetch call
+
+    if (auth.currentUser) {
+        updateProfile(auth.currentUser, {
+            displayName: name,
+            photoURL: avatarKey,
+        })
+    }
   };
 
   return (
@@ -133,13 +158,15 @@ export const ProfilePage = () => {
           <FormControl>
             <FormLabel htmlFor='email'>Email address:</FormLabel>
             <Input
+              id='email-input'
+              disabled='true'
               type='email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
 
             <FormLabel htmlFor='name'>Name:</FormLabel>
-            <Input value={name} onChange={(e) => setName(e.target.value)} />
+            <Input id='name-input' value={name} onChange={(e) => setName(e.target.value)} />
 
             <FormLabel htmlFor='age'>Age:</FormLabel>
             <NumberInput defaultValue={16} min={10} max={100}>
@@ -194,7 +221,7 @@ export const ProfilePage = () => {
           <Button colorScheme='blue' onClick={generateAvatarKey}>
             Generate avatar
           </Button>
-          <Avatar size='xl' src={avatarKey} />
+          <Avatar id='avatar' size='xl' src={avatarKey} />
           <Button colorScheme='teal' onClick={submitData}>
             Get Started
           </Button>
