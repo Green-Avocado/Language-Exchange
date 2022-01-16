@@ -1,4 +1,3 @@
-// import * as React from "react";
 import { useState, useEffect } from "react";
 import {
   Flex,
@@ -12,13 +11,14 @@ import {
   IconButton,
   Checkbox,
   HStack,
-  Container,
   RangeSlider,
   RangeSliderFilledTrack,
   RangeSliderTrack,
   RangeSliderThumb,
   Button,
   VStack,
+  Tag,
+  Spinner,
 } from "@chakra-ui/react";
 import { onValue } from "firebase/database";
 import { usersRef } from "../../firebase";
@@ -26,22 +26,36 @@ import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 
 export const SearchPage = () => {
   const [range, setRange] = useState([18, 22]);
-  const user = {
-    avatar: "https://avatars.dicebear.com/api/jdenticon/string.svg",
-    name: "John",
-    age: 19,
-    language: "Spanish",
-    experience: "Beginner",
-    gender: "Male",
-    location: "Vancouver",
-    wantToLearn: true,
-    wantToHelp: false,
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    onValue(usersRef, (snapshot) => {
+      const data = snapshot.val();
+      setUsers([...Object.values(data)]);
+      setLoading(false);
+    });
+  }, []);
+
+  const nextUser = () => {
+    let temp = [...users];
+    temp.splice(0, 1);
+    setUsers(temp);
   };
 
-  onValue(usersRef, (snapshot) => {
-    const data = snapshot.val();
-    console.log(data);
-  });
+  const handleAccept = () => {
+    // do db update
+    nextUser();
+  };
+
+  const handleReject = () => {
+    // do db update
+    nextUser();
+  };
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <Flex justify='space-evenly'>
@@ -112,50 +126,63 @@ export const SearchPage = () => {
           </FormControl>
         </VStack>
         <VStack>
-          <Box
-            width='350px'
-            padding={8}
-            color='gray.500'
-            fontWeight='semibold'
-            letterSpacing='wide'
-            borderWidth='3px'
-            borderRadius='lg'
-            overflow='hidden'
-          >
-            <VStack>
-              <Avatar size='xl' src={user.avatar} />
-              <Text fontWeight='bold' fontSize='xl'>
-                {user.name}
-              </Text>
-              <Text fontSize='lg'>Age: {user.age}</Text>
-              <Text fontSize='lg'>
-                {user.language} ({user.experience})
-              </Text>
-              <Text fontSize='lg'>{user.gender}</Text>
-              <Text fontSize='lg'>{user.location}</Text>
-              <Checkbox
-                color='black'
-                isDisabled
-                defaultIsChecked={user.wantToLearn}
+          {users.length > 0 ? (
+            <>
+              <Box
+                width='350px'
+                padding={8}
+                color='gray.500'
+                fontWeight='semibold'
+                letterSpacing='wide'
+                borderWidth='3px'
+                borderRadius='lg'
+                overflow='hidden'
               >
-                Want to learn
-              </Checkbox>
-              <Checkbox
-                color='black'
-                isDisabled
-                defaultIsChecked={user.wantToHelp}
-              >
-                Want to help
-              </Checkbox>
-            </VStack>
-          </Box>
-          <HStack>
-            <IconButton variant='outline' icon={<CloseIcon />} />
-            <IconButton colorScheme='red' icon={<CheckIcon />} />
-          </HStack>
+                <VStack>
+                  <Avatar size='xl' src={users[0].avatar} />
+                  <Text fontWeight='bold' fontSize='xl'>
+                    {users[0].name}
+                  </Text>
+                  <Text fontSize='lg'>Age: {users[0].age}</Text>
+                  <Text fontSize='lg'>{users[0].gender}</Text>
+                  <Text fontSize='lg'>{users[0].location}</Text>
+
+                  {users[0].languages.map((l, index) => (
+                    <Tag key={index} p='4'>
+                      <VStack>
+                        <Text fontSize='lg'>
+                          {l.language} ({l.experience})
+                        </Text>
+                        <HStack>
+                          {l.wantToLearn && (
+                            <Tag colorScheme='blue'>Want to learn</Tag>
+                          )}
+
+                          <Tag colorScheme='green'>Want to help</Tag>
+                        </HStack>
+                      </VStack>
+                    </Tag>
+                  ))}
+                </VStack>
+              </Box>
+              <HStack>
+                <IconButton
+                  variant='outline'
+                  icon={<CloseIcon />}
+                  onClick={handleReject}
+                />
+                <IconButton
+                  colorScheme='red'
+                  icon={<CheckIcon />}
+                  onClick={handleAccept}
+                />
+              </HStack>{" "}
+            </>
+          ) : (
+            <Center>No more profiles</Center>
+          )}
         </VStack>
       </HStack>
-      {/* </Center> */}
     </Flex>
   );
 };
