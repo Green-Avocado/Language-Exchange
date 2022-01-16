@@ -21,7 +21,7 @@ import {
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth"
-import { readUserData, writeUserData } from "../../firebase.js"
+import { readUserData, updateUserData } from "../../firebase.js"
 
 let avatarKey, setAvatarKey;
 let email, setEmail;
@@ -68,6 +68,7 @@ const LanguageInput = ({ l, removeLanguage, editLanguage, index }) => {
           onChange={(e) => handleChange(e, "language")}
           value={l.language}
         >
+          <option value='english'>English</option>
           <option value='spanish'>Spanish</option>
           <option value='chinese'>Chinese</option>
           <option value='french'>French</option>
@@ -83,20 +84,19 @@ const LanguageInput = ({ l, removeLanguage, editLanguage, index }) => {
           <option value='advanced'>Advanced</option>
         </Select>
 
-        <Checkbox
-          colorScheme='orange'
-          onChange={(e) => handleChange(e, "wantToLearn")}
-          value={l.wantToLearn}
-        >
-          Want to learn
-        </Checkbox>
-        <Checkbox
-          colorScheme='green'
-          onChange={(e) => handleChange(e, "wantToHelp")}
-          value={l.wantToHelp}
-        >
-          Want to help
-        </Checkbox>
+        <FormLabel htmlFor='wantToLearn'>Want to learn:</FormLabel>
+      <input
+        type="checkbox"
+        onChange={(e) => handleChange(e, "wantToLearn")}
+        value={l.wantToLearn}
+      />
+
+        <FormLabel htmlFor='wantToHelp'>Want to help:</FormLabel>
+      <input
+        type="checkbox"
+        onChange={(e) => handleChange(e, "wantToHelp")}
+        value={l.wantToHelp}
+      />
 
         <Button onClick={() => removeLanguage(index)}>Remove</Button>
       </VStack>
@@ -108,7 +108,7 @@ export const ProfilePage = () => {
     [avatarKey, setAvatarKey] = useState();
     [email, setEmail] = useState();
     [name, setName] = useState();
-    [age, setAge] = useState();
+    [age, setAge] = useState(0);
     [gender, setGender] = useState();
     [location, setLocation] = useState();
     [languages, setLanguages] = useState([]);
@@ -140,23 +140,27 @@ export const ProfilePage = () => {
     setLanguages(temp);
   };
 
-  const submitData = () => {
+  const submitData = async () => {
     const data = {
-      name,
-      age,
-      gender,
-      avatarKey,
-      languages,
-      location,
+      'name': name,
+      'age': age,
+      'gender': gender,
+      'avatar': avatarKey,
+      'languages': languages,
+      'location': location,
     };
     console.log(data);
 
     if (auth.currentUser) {
-        updateProfile(auth.currentUser, {
+        await updateProfile(auth.currentUser, {
             displayName: name,
             photoURL: avatarKey,
-        })
+        });
+
+        await updateUserData(auth.currentUser.uid, data);
     }
+
+      window.location = "/search";
   };
 
   return (
@@ -178,16 +182,12 @@ export const ProfilePage = () => {
             <Input id='name-input' value={name} onChange={(e) => setName(e.target.value)} />
 
             <FormLabel htmlFor='age'>Age:</FormLabel>
-            <NumberInput defaultValue={16} min={10} max={100}>
-              <NumberInputField
-                value={age}
-                onChange={(e) => setAge(e.target.value)}
-              />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
+            <Input
+              id='age-input'
+              type='number'
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+            />
 
             <FormLabel htmlFor='gender'>Gender:</FormLabel>
             <Select
@@ -195,9 +195,9 @@ export const ProfilePage = () => {
               value={gender}
               onChange={(e) => setGender(e.target.value)}
             >
-              <option value='male'>Male</option>
-              <option value='female'>Female</option>
-              <option value='prefer-not-say'>Prefer not say</option>
+              <option value='Male'>Male</option>
+              <option value='Female'>Female</option>
+              <option value='Prefer not to say'>Prefer not to say</option>
             </Select>
 
             <FormLabel htmlFor='location'>Location:</FormLabel>
@@ -206,8 +206,8 @@ export const ProfilePage = () => {
               value={location}
               onChange={(e) => setLocation(e.target.value)}
             >
-              <option value='vancouver'>Vancouver</option>
-              <option value='toronto'>Toronto</option>
+              <option value='Vancouver'>Vancouver</option>
+              <option value='Toronto'>Toronto</option>
             </Select>
           </FormControl>
         </VStack>
