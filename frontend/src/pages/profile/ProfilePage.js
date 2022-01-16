@@ -68,6 +68,7 @@ const LanguageInput = ({ l, removeLanguage, editLanguage, index }) => {
           onChange={(e) => handleChange(e, "language")}
           value={l.language}
         >
+          <option value='english'>English</option>
           <option value='spanish'>Spanish</option>
           <option value='chinese'>Chinese</option>
           <option value='french'>French</option>
@@ -83,20 +84,19 @@ const LanguageInput = ({ l, removeLanguage, editLanguage, index }) => {
           <option value='advanced'>Advanced</option>
         </Select>
 
-        <Checkbox
-          colorScheme='orange'
-          onChange={(e) => handleChange(e, "wantToLearn")}
-          value={l.wantToLearn}
-        >
-          Want to learn
-        </Checkbox>
-        <Checkbox
-          colorScheme='green'
-          onChange={(e) => handleChange(e, "wantToHelp")}
-          value={l.wantToHelp}
-        >
-          Want to help
-        </Checkbox>
+        <FormLabel htmlFor='wantToLearn'>Want to learn:</FormLabel>
+      <input
+        type="checkbox"
+        onChange={(e) => handleChange(e, "wantToLearn")}
+        value={l.wantToLearn}
+      />
+
+        <FormLabel htmlFor='wantToHelp'>Want to help:</FormLabel>
+      <input
+        type="checkbox"
+        onChange={(e) => handleChange(e, "wantToHelp")}
+        value={l.wantToHelp}
+      />
 
         <Button onClick={() => removeLanguage(index)}>Remove</Button>
       </VStack>
