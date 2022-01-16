@@ -21,8 +21,14 @@ import {
 
 export const SearchPage = () => {
   const [range, setRange] = useState([18, 22])
-
-
+  const user = {
+      avatar: null,
+      name: null,
+      age: null,
+      language: null,
+      experience: null
+  }
+  
   return (
     <Container>
       <Center>
