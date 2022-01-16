@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { getDatabase, ref, set, get } from "firebase/database";
+import { getDatabase, ref, set, get, update } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBrm8MJo8UHxYaso8tXSWDJ4Dhy3ohVQmg",
@@ -47,12 +47,13 @@ const login = async () => {
 
 const readUserData = async (userId) => {
     const db = getDatabase();
-    get(ref(db, 'Users/' + userId)).then((snapshot) => {
-        if (snapshot.exists()) {
-            console.log(snapshot.val());
-            return snapshot.val();
-        }
-    });
+    let snapshot = await get(ref(db, 'Users/' + userId));
+
+    if (snapshot.exists()) {
+        let data = await snapshot.val();
+        console.log(data);
+        return data;
+    }
 };
 
 const writeUserData = async (userId, data) => {
@@ -60,7 +61,12 @@ const writeUserData = async (userId, data) => {
     set(ref(db, 'Users/' + userId), data);
 };
 
+const updateUserData = async (userId, data) => {
+    const db = getDatabase();
+    update(ref(db, 'Users/' + userId), data);
+};
+
 const db = getDatabase();
 const usersRef = ref(db, "Users");
 
-export { login, usersRef, readUserData, writeUserData };
+export { login, usersRef, readUserData, writeUserData, updateUserData };
