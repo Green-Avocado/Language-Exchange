@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Button, Box, HStack, Center, Container } from "@chakra-ui/react";
 import { SetupProfile } from "./SetupProfile";
+import { login } from "../../firebase.js";
 
 export const LandingPage = () => {
   return (
@@ -12,7 +13,7 @@ export const LandingPage = () => {
           </Box>
           <Box minW='xl' w='100%' minV='100%' p='4'>
             <Center>
-              <Button>Sign in with Google</Button>
+              <Button onClick={login}>Sign in with Google</Button>
             </Center>
             {/* <SetupProfile /> */}
           </Box>
