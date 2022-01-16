@@ -142,12 +142,12 @@ export const ProfilePage = () => {
 
   const submitData = () => {
     const data = {
-      name,
-      age,
-      gender,
-      avatarKey,
-      languages,
-      location,
+      'name': name,
+      'age': age,
+      'gender': gender,
+      'avatar': avatarKey,
+      'languages': languages,
+      'location': location,
     };
     console.log(data);
 
@@ -155,8 +155,11 @@ export const ProfilePage = () => {
         updateProfile(auth.currentUser, {
             displayName: name,
             photoURL: avatarKey,
-        })
+        });
+
+        writeUserData(auth.currentUser.uid, data);
     }
+
   };
 
   return (
