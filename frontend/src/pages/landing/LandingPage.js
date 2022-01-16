@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { Box, Flex, Center, Button } from "@chakra-ui/react";
-import { SetupProfile } from "./SetupProfile";
 import { login } from "../../firebase.js";
 import { getAuth } from "firebase/auth";
 
@@ -19,7 +18,6 @@ export const LandingPage = () => {
         <Center>
           <Button onClick={login}>Sign in with Google</Button>
         </Center>
-        {/* <SetupProfile /> */}
       </Box>
     </Flex>
   );
