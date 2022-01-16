@@ -1,16 +1,17 @@
 import { useState, React } from 'react'
-import { Button, Flex, IconButton, Link } from '@chakra-ui/react'
+import { Button, Flex, IconButton, Link, Box } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 
 const NavBar = () => {
     const [display, changeDisplay] = useState('none')
     return (
-        <Flex>
-            <Flex 
-                pos="fixed"
-                top='1rem'
-                right='1rem'
-                align='center'>
+        <Flex w='100vw' h='100px'>
+            <Flex
+                // pos="fixed"
+                // top='1rem'
+                // right='1rem'
+                align='center'
+                justifyContent='flex-end'>
 
             <Flex 
                 display={['none', 'none', 'flex', 'flex']}>
