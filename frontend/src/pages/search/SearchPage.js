@@ -102,7 +102,7 @@ export const SearchPage = () => {
             </Select>
 
             <FormLabel htmlFor='search-gender'>Gender:</FormLabel>
-            <Select id='search-gender' placeholder='Select a gender'>
+            <Select mb={3} id='search-gender' placeholder='Select a gender'>
               <option value='search-any'>Any</option>
               <option value='search-male'>Male</option>
               <option value='search-female'>Female</option>
@@ -116,13 +116,13 @@ export const SearchPage = () => {
                 Want to help
               </Checkbox>
             </HStack>
-            <FormLabel htmlFor='search-location'>Location:</FormLabel>
+            <FormLabel mt={3} htmlFor='search-location'>Location:</FormLabel>
             <Select placeholder='Select'>
               <option value='search-vancouver'>Vancouver</option>
               <option value='search-toronto'>Toronto</option>
             </Select>
 
-            <Button type='search'>Search for matches!</Button>
+            <Button mt={3} type='search'>Search for matches!</Button>
           </FormControl>
         </VStack>
         <VStack>

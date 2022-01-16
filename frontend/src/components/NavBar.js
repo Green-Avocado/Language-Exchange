@@ -33,12 +33,12 @@ const NavBar = () => {
             >
                 <Flex display={["none", "none", "flex", "flex"]}>
                     <Link href='/'>
-                        <Button as='a' variant='ghost' aria-label='Home' my={5} w='100%'>
+                        <Button color='#03045e' as='a' variant='ghost' aria-label='Home' my={5} w='100%'>
                             Home
                         </Button>
                     </Link>
                     <Link href='/search'>
-                        <Button as='a' variant='ghost' aria-label='Search' my={5} w='100%'>
+                        <Button color='#03045e' as='a' variant='ghost' aria-label='Search' my={5} w='100%'>
                             Search
                         </Button>
                     </Link>
@@ -66,6 +66,7 @@ const NavBar = () => {
                             </Popover>
                             <Link href='/'>
                                 <Button
+                                    color='#03045e'
                                     as='a'
                                     variant='ghost'
                                     aria-label='Landing'
@@ -78,7 +79,7 @@ const NavBar = () => {
                             </Link>
                         </>
                     )}
-                    <Text as='a' my={7} w='100%' ml={1}>
+                    <Text color='#03045e' as='a' my={7} w='100%' ml={1}>
                         {user?.displayName}
                     </Text>
                 </Flex>
@@ -107,7 +108,7 @@ const NavBar = () => {
                 <Flex justify='flex-end'>
                     <IconButton
                         mt={2} // margin top
-                        mr={2} // margin right
+                        ml={2} 
                         aria-label='Close Menu'
                         size='lg'
                         icon={<CloseIcon />}
