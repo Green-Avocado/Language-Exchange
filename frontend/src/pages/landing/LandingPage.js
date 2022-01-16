@@ -1,4 +1,4 @@
-import { Box, Flex, Center, Button, Spinner, VStack, Text } from "@chakra-ui/react";
+import { Box, Flex, Center, Button, Spinner, VStack, Text, Image} from "@chakra-ui/react";
 import { login } from "../../firebase.js";
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -32,7 +32,10 @@ export const LandingPage = () => {
       </Box>
       <Box minW='xl' w='100%' minH='100%' p='4'>
         <Center>
+          <VStack>
+            <Text>Sign in to create or modify your profile!</Text>
           <Button onClick={login}>Sign in with Google</Button>
+          </VStack>
         </Center>
       </Box>
     </Flex>
