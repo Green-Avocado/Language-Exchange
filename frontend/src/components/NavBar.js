@@ -4,14 +4,33 @@ import { Button, Flex, IconButton, Link, Box } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { readUserData } from "../firebase.js"
 
 let name = "Guest";
 const auth = getAuth();
+const matches = [];
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        readUserData("").then((data) => {
+            for (let i in data){
+                if (data[i].yes.includes(user.uid)) {
+                    console.log(data[i]);
+                    matches.push(i);
+                }
+            }
+            console.log(matches);
+        });
+
+    }
+  });
+
 
 const NavBar = () => {
-    const [user, loading, error] = useAuthState(auth);
     const [display, changeDisplay] = useState("none");
 
+    const [user, loading, error] = useAuthState(auth);
+    
     const handleSignOut = () => {
         signOut(auth)
             .then(() => {
@@ -61,7 +80,8 @@ const NavBar = () => {
                                     <PopoverArrow />
                                     <PopoverCloseButton />
                                     <PopoverHeader fontWeight='bold'>Matches:</PopoverHeader>
-                                    <PopoverBody>Display matches here</PopoverBody>
+                                    <PopoverBody>Display matches here
+                                    </PopoverBody>
                                 </PopoverContent>
                             </Popover>
                             <Link href='/'>
