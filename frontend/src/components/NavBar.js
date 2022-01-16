@@ -10,7 +10,14 @@ const auth = getAuth();
 
 const NavBar = () => {
     const [user, loading, error] = useAuthState(auth);
+    const [users, setUsers] = useState([]);
     const [display, changeDisplay] = useState("none");
+
+    const nextUser = () => {
+        let temp = [...users];
+        temp.splice(0, 1);
+        setUsers(temp);
+      };
 
     const handleSignOut = () => {
         signOut(auth)
@@ -61,7 +68,11 @@ const NavBar = () => {
                                     <PopoverArrow />
                                     <PopoverCloseButton />
                                     <PopoverHeader fontWeight='bold'>Matches:</PopoverHeader>
-                                    <PopoverBody>Display matches here</PopoverBody>
+                                    <PopoverBody>
+                                        <Text id='match'>
+                                            Display
+                                        </Text>
+                                    </PopoverBody>
                                 </PopoverContent>
                             </Popover>
                             <Link href='/'>
