@@ -69,9 +69,22 @@ const NavBar = () => {
                                     <PopoverCloseButton />
                                     <PopoverHeader fontWeight='bold'>Matches:</PopoverHeader>
                                     <PopoverBody>
-                                        <Text id='match'>
-                                            Display
+                                        <Box bg='#d7e3fc' padding='5px'>
+                                        <Text fontWeight='semibold' id='match'>
+                                            Jason - 19 
+                                            (jasonemail@gmail.com)
                                         </Text>
+                                        <Text>English - Advanced</Text>
+                                        <Text>French - Intermediate</Text>
+                                        <Text>Spanish - Beginner</Text>
+                                        </Box>
+                                        <Box>
+                                        <Text fontWeight='semibold' id='match2'>
+                                            John - 30
+                                            (johnemail@gmail.com)
+                                        </Text>
+                                        <Text>English - Beginner</Text>
+                                        </Box>
                                     </PopoverBody>
                                 </PopoverContent>
                             </Popover>
