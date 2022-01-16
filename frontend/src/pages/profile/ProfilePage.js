@@ -108,7 +108,7 @@ export const ProfilePage = () => {
     [avatarKey, setAvatarKey] = useState();
     [email, setEmail] = useState();
     [name, setName] = useState();
-    [age, setAge] = useState();
+    [age, setAge] = useState(0);
     [gender, setGender] = useState();
     [location, setLocation] = useState();
     [languages, setLanguages] = useState([]);
@@ -181,16 +181,12 @@ export const ProfilePage = () => {
             <Input id='name-input' value={name} onChange={(e) => setName(e.target.value)} />
 
             <FormLabel htmlFor='age'>Age:</FormLabel>
-            <NumberInput defaultValue={16} min={10} max={100}>
-              <NumberInputField
-                value={age}
-                onChange={(e) => setAge(e.target.value)}
-              />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
+            <Input
+              id='age-input'
+              type='number'
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+            />
 
             <FormLabel htmlFor='gender'>Gender:</FormLabel>
             <Select
