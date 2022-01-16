@@ -4,8 +4,9 @@ import {
   Button,
   Text,
   VStack,
+  HStack,
   Center,
-  Container,
+  Flex,
   FormControl,
   Input,
   FormLabel,
@@ -74,7 +75,7 @@ const LanguageInput = ({ l, removeLanguage, editLanguage, index }) => {
   );
 };
 
-export const SetupProfile = () => {
+export const ProfilePage = () => {
   const [avatarKey, setAvatarKey] = useState("https://bit.ly/broken-link");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -125,10 +126,10 @@ export const SetupProfile = () => {
   };
 
   return (
-    <Container>
-      <Center>
-        <VStack w='100%' spacing='20px'>
-          <Text fontSize='3xl'>Set up your profile: </Text>
+    <Flex justify='space-evenly' minW='50vw'>
+      <Box w='50%'>
+        <VStack>
+          <Text fontSize='3xl'>Your profile: </Text>
           <FormControl>
             <FormLabel htmlFor='email'>Email address:</FormLabel>
             <Input
@@ -172,21 +173,24 @@ export const SetupProfile = () => {
               <option value='vancouver'>Vancouver</option>
               <option value='toronto'>Toronto</option>
             </Select>
-
-            <Button colorScheme='blue' onClick={addLanguage} mb='3' mt='3'>
-              Add Language
-            </Button>
-            {languages.map((l, index) => (
-              <LanguageInput
-                key={index}
-                l={l}
-                editLanguage={editLanguage}
-                removeLanguage={removeLanguage}
-                index={index}
-              />
-            ))}
           </FormControl>
+        </VStack>
+      </Box>
 
+      <Box w='400px'>
+        <VStack>
+          <Button colorScheme='blue' onClick={addLanguage} mb='3' mt='3'>
+            Add Language
+          </Button>
+          {languages.map((l, index) => (
+            <LanguageInput
+              key={index}
+              l={l}
+              editLanguage={editLanguage}
+              removeLanguage={removeLanguage}
+              index={index}
+            />
+          ))}
           <Button colorScheme='blue' onClick={generateAvatarKey}>
             Generate avatar
           </Button>
@@ -195,7 +199,7 @@ export const SetupProfile = () => {
             Get Started
           </Button>
         </VStack>
-      </Center>
-    </Container>
+      </Box>
+    </Flex>
   );
 };
