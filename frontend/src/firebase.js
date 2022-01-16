@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getDatabase, ref } from "firebase/database";
 
 const provider = new GoogleAuthProvider();
 const login = async () => {
@@ -38,6 +39,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyBrm8MJo8UHxYaso8tXSWDJ4Dhy3ohVQmg",
   authDomain: "nwhacks-f42df.firebaseapp.com",
   projectId: "nwhacks-f42df",
+  databaseURL: "https://nwhacks-f42df-default-rtdb.firebaseio.com",
   storageBucket: "nwhacks-f42df.appspot.com",
   messagingSenderId: "717144736521",
   appId: "1:717144736521:web:c523e58d3cda7c84d949d8",
@@ -48,4 +50,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
-export { login };
+const db = getDatabase();
+const usersRef = ref(db, "Users");
+
+export { login, usersRef };
