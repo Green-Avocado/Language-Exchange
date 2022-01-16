@@ -1,11 +1,15 @@
 // import * as React from "react";
 import { useState } from "react";
 import {
+  Flex,
+  Avatar,
   Box,
+  Text,
   Center,
   FormControl,
   FormLabel,
   Select,
+  IconButton,
   Checkbox,
   RadioGroup,
   Radio,
@@ -18,26 +22,35 @@ import {
   Button,
   VStack
 } from "@chakra-ui/react";
+import { CheckIcon, CloseIcon} from '@chakra-ui/icons'
 
 export const SearchPage = () => {
   const [range, setRange] = useState([18, 22])
   const user = {
-      avatar: null,
-      name: null,
-      age: null,
-      language: null,
-      experience: null
+      avatar: 'https://avatars.dicebear.com/api/jdenticon/string.svg',
+      name: 'John',
+      age: 19,
+      language: 'Spanish',
+      experience: 'Beginner',
+      gender: 'Male',
+      location: 'Vancouver',
+      wantToLearn: true,
+      wantToHelp: false
   }
   
   return (
-    <Container>
-      <Center>
-        <HStack>
-          <VStack>
-            Search for:
-            <FormControl>
+    <Flex justify='space-evenly'>
+      {/* <Center> */}
+        <HStack spacing='100px'>
+          <VStack spacing='30px' width='300px'>
+            <Text 
+              fontWeight='bold'
+              fontSize='2xl'
+              >Search for: </Text>
+            <FormControl spacing='30px'>
               <FormLabel htmlFor="search-language">Language:</FormLabel>
               <Select
+                mb={3}
                 placeholder="Select language">
                 <option value='search-spanish'>Spanish</option>
                 <option value='search-chinese'>Chinese</option>
@@ -45,7 +58,13 @@ export const SearchPage = () => {
               </Select>
 
               <FormLabel htmlFor="search-age">Age range:</FormLabel>
-              <RangeSlider id="search-age" defaultValue={range} min={16} max={70} step={1} value={range} onChange={(value) => setRange(value)}>
+              <RangeSlider 
+                mb={3}
+                id="search-age" 
+                defaultValue={range} 
+                min={16} max={70} step={1} 
+                value={range} 
+                onChange={(value) => setRange(value)}>
                 <RangeSliderTrack bg='red.100'>
                   <RangeSliderFilledTrack bg='tomato' />
                 </RangeSliderTrack>
@@ -63,6 +82,7 @@ export const SearchPage = () => {
 
               <FormLabel htmlFor='search-experience'>Experience level:</FormLabel>
               <Select
+                mb={3}
                 placeholder='Select'
               >
                 <option value='search-beginner'>Beginner</option>
@@ -71,7 +91,7 @@ export const SearchPage = () => {
               </Select>
 
               <FormLabel htmlFor="search-gender">Gender:</FormLabel>
-              <Select id="search-gender" placeholder="Select a gender">
+              <Select mb={4} id="search-gender" placeholder="Select a gender">
                 <option value='search-any'>Any</option>
                 <option value='search-male'>Male</option>
                 <option value='search-female'>Female</option>
@@ -91,8 +111,9 @@ export const SearchPage = () => {
                   Want to help
                 </Checkbox>
               </HStack>
-              <FormLabel htmlFor='search-location'>Location:</FormLabel>
+              <FormLabel mt={3} htmlFor='search-location'>Location:</FormLabel>
               <Select
+                mb={4}
                 placeholder='Select'
               >
                 <option value='search-vancouver'>Vancouver</option>
@@ -102,10 +123,37 @@ export const SearchPage = () => {
               <Button type="search">Search for matches!</Button>
             </FormControl>
           </VStack>
-
+    <VStack>
+      <Box 
+        width='350px'
+        padding={8}
+        color='gray.500'
+        fontWeight='semibold'
+        letterSpacing='wide'
+        borderWidth='3px' 
+        borderRadius='lg' 
+        overflow='hidden'>
+          <VStack>
+          <Avatar size='xl' src={user.avatar}/>
+          <Text fontWeight='bold' fontSize='xl'>{user.name}</Text>
+          <Text fontSize='lg'>Age: {user.age}</Text>
+          <Text fontSize='lg'>{user.language} ({user.experience})</Text>
+          <Text fontSize='lg'>{user.gender}</Text>
+          <Text fontSize='lg'>{user.location}</Text>
+          <Checkbox color='black' isDisabled defaultIsChecked={user.wantToLearn}>Want to learn</Checkbox> 
+          <Checkbox color='black' isDisabled defaultIsChecked={user.wantToHelp}>Want to help</Checkbox>
+          </VStack>
+          
+      </Box>
+      <HStack>
+      <IconButton variant='outline' icon={<CloseIcon />} />
+      <IconButton  colorScheme="red"  icon={<CheckIcon />} />
+      
+      </HStack>
+      </VStack>
         </HStack>
-      </Center>
+      {/* </Center> */}
 
-    </Container>
+    </Flex>
   );
 };
