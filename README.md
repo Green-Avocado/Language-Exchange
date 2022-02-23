@@ -4,14 +4,14 @@ nwHacks Hackathon 2022 Project
 
 ## Description ## 
 The Tinder and Bumble for language exchange! Connect with others who are learning the same language as you
-or find experieneced speakers using a matching system inspired by the most popular dating apps. 
+or find experienced speakers using a matching system inspired by the most popular dating apps. 
 
 Sign in with your Google account to make/modify your profile and match with others. 
 
 Developed to address the intimidation of learning a new language by allowing learners to connect with mentors or other learners. 
 
 ## Software Used ## 
-React, Chaktra UI, Firebase, JS 
+React, Chakra UI, Firebase, JS 
 
 ## Demo Video ##
 
